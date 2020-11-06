@@ -1,0 +1,47 @@
+---
+title: "week4"
+author: "Adita Poddar"
+date: "06/11/2020"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## mtcars dataset
+
+```{r cache=TRUE}
+library(datasets)
+mpgData <- with(mtcars, data.frame(mpg, am))
+mpgData$am <- factor(mpgData$am, labels = c("Auto", "Man"))
+#summary(mpgData)
+```
+
+
+```{r cache=TRUE}
+summary(mpgData[mpgData$am == "Auto",])
+summary(mpgData[mpgData$am == "Man",])
+```
+
+
+
+```{r cache=TRUE}
+fit <- lm(mpg ~ as.integer(am), data=mpgData)
+summary(fit)
+```
+
+
+```{r cache=TRUE}
+par(mfrow=c(1,2))
+with(mpgData,{
+     boxplot(mpg ~ am, 
+             ylab = "miles per gallon (MPG)")
+     plot(mpg ~ as.integer(am),
+             xlab = "Auto (1) or Man(2)",
+             ylab = "miles per gallon (MPG)")
+     abline(fit, col=2)
+     })
+```
